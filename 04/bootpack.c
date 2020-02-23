@@ -54,7 +54,7 @@ void HariMain(void) {
     boxfill8(vram, xsize, COL8_FFFFFF, xsize -  3, ysize - 24, xsize -  3, ysize -  3);
 
     for (;;) {
-	    io_hlt();
+        io_hlt();
     }
 }
 

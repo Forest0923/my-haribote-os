@@ -47,7 +47,7 @@ void HariMain(void) {
 
 
     for (;;) {
-	    io_hlt();
+        io_hlt();
     }
 }
 

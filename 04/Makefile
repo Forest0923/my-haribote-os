@@ -32,8 +32,4 @@ run : os.img
 	qemu-system-i386 -fda os.img
 
 clean :
-	rm -f *.bin
-	rm -f *.o
-	rm -f *.sys
-	rm -f *.img
-	rm -f *.lst
+	rm -f *.bin *.o *.sys *.img *.lst
