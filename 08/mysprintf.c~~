@@ -1,0 +1,226 @@
+#include <stdarg.h>
+ 
+/* Decimal to ascii */
+int dec2asc(char *str, int dec, int zeroflag, int width) {
+    int i;
+    char tmp[10];
+    char* ptmp = tmp + 10;
+    int len = 0;
+    int minus = 0;
+
+    if (!dec) { /* 指定値が0の場合 */
+        *(ptmp--) = '0';
+        len++;
+    }
+    else {
+        /* マイナスの値の場合には2の補数を取る */
+        if (dec < 0) {
+            dec = ~dec;
+            dec++;
+            minus = 1;
+        }
+        while (dec) {
+            /* バッファアンダーフロー対策 */
+            if (len >= 8){
+                break;
+            }
+
+            *ptmp = (dec % 10) + '0';
+            dec /= 10;
+            ptmp--;
+            len++;
+        }
+
+    }
+
+    /* 符号、桁合わせに関する処理 */
+    if (zeroflag) {
+        if (minus) {
+            width--;
+        }
+        while (len < width) {
+            *(ptmp--) =  '0';
+            len++;
+        }
+        if (minus) {
+            *(ptmp--) = '-';
+            len++;
+        }
+    }
+    else {
+        if (minus) {
+            *(ptmp--) = '-';
+            len++;
+        }
+        while (len < width) {
+            *(ptmp--) =  ' ';
+            len++;
+        }
+    }
+
+    /* 生成文字列のバッファコピー */
+    for (i=0; i<len; i++) {
+        *(buff++) = *(++ptmp);
+    }
+
+    return len;
+
+    /*
+    int len = 0, len_buf; //桁数
+    int buf[10];
+    while (1) { //10で割れた回数（つまり桁数）をlenに、各桁をbufに格納
+        buf[len++] = dec % 10;
+        if (dec < 10) break;
+        dec /= 10;
+    }
+    len_buf = len;
+    while (len) {
+        *(str++) = buf[--len] + 0x30;
+    }
+    return len_buf;
+    */
+}
+ 
+/* Hex to ascii */
+int hex2asc(char *str, int dec, int capital, int zeroflag, int width) {
+    int i;
+    char tmp[10];
+    char* ptmp = tmp + 10;
+    int len = 0;
+    char str_a;
+
+    /* A〜Fを大文字にするか小文字にするか切り替える */
+    if (capital) {
+        str_a = 'A';
+    }
+    else {
+        str_a = 'a';
+    }
+
+    if (!dec){  /* 指定値が0の場合 */
+        *(ptmp--) = '0';
+        len++;
+    }
+    else {
+        while (dec) {
+            /* バッファアンダーフロー対策 */
+            if (len >= 8){
+                break;
+            }
+
+            *ptmp = (dec % 16);
+            if (*ptmp > 9){
+                *ptmp += str_a - 10;
+            } else {
+                *ptmp += '0';
+            }
+
+            dec >>= 4;  /* 16で割る */
+            ptmp--;
+            len++;
+        }
+    }
+    while (len < width){
+        *(ptmp--) =  zeroflag ? '0' : ' ';
+        len++;
+    }
+
+    for (i=0;i<len;i++){
+        *(str++) = *(++ptmp);
+    }
+
+    return(len);
+
+    /*
+    int len = 0, len_buf; //桁数
+    int buf[10];
+    while (1) {
+        buf[len++] = dec % 16;
+        if (dec < 16) break;
+        dec /= 16;
+    }
+    len_buf = len;
+    while (len) {
+        len --;
+        *(str++) = (buf[len]<10)?(buf[len] + 0x30):(buf[len] - 9 + 0x60);
+    }
+    return len_buf;
+    */
+}
+
+/* Character to asc */
+int char2asc(char *str, int dec) {
+    *buff = (char)dec;
+    return(1);
+}
+
+/* String to ascii */
+int str2asc(char *str, char* dec) {
+    int count = 0;
+    while(*dec){
+        *(str++) = *dec;
+        dec++;
+        count++;
+    }
+    return(count);
+}
+
+void sprintf(char *str, char *fmt, ...) {
+    va_list list;
+    int len;
+    int size;
+    int zeroflag;   /* Zero padding */
+    int width;      /* Padding      */
+    va_start (list, fmt);
+ 
+    size = 0;
+    len  = 0;
+    while (*fmt) {
+        if (*fmt == '%') {
+            zeroflag = 0;
+            width    = 0;
+            fmt++;
+
+            if (*fmt == '0') {
+                fmt++;
+                zeroflag = 1;
+            }
+            if ((*fmt >= '0') && (*fmt <= '9')) {
+                width = *fmt - '0';
+                fmt++;
+            }
+            switch (*fmt) {
+            case 'd':
+                size = dec2asc(str, va_arg(list, int), zeroflag, width);
+                break;
+            case 'x':
+                size = hex2asc(str, va_arg(list, int), 0, zeroflag, width);
+                break;
+            case 'X':
+                size = hex2asc(str, va_arg(list, int), 1, zeroflag, width);
+                break;
+            case 'c':
+                size = char2asc(str, va_arg(list, int));
+                break;
+            case 's':
+                size = str2asc(str, va_arg(list, char*));
+                break;
+            default:
+                len++;
+                *(str++) = *fmt;
+                break;
+            }
+            len += size;
+            str += size;
+            fmt++;
+        }
+        else {
+            *(str++) = *(fmt++);
+            len++;
+        }   
+    }
+
+    *str = 0x00; //最後にNULLを追加
+    va_end (list);
+}
+
