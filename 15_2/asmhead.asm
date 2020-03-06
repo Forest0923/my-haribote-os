@@ -1,7 +1,7 @@
 ; haribote-os boot asm
 ; TAB=4
 
-VBEMODE     EQU     0x100           ; 1024 x 768 x 8 bit color
+VBEMODE     EQU     0x105           ; 1024 x 768 x 8 bit color
 ; screen mode
 ; 0x100 :  640 x  400 x 8bit
 ; 0x101 :  640 x  480 x 8bit
