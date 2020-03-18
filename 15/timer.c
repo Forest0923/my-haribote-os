@@ -84,7 +84,7 @@ void inthandler20(int *esp) {
     if (timerctl.next > timerctl.count) {
         return;
     }
-    for (timer=timerctl.t0; timer->timeout<=timerctl.count; timer=timer->next) {
+    for (timer=timerctl.t0; timer->timeout<=timerctl.count;) {
         timer->flags = TIMER_FLAGS_ALLOC;
         if (timer != mt_timer) {
             fifo32_put(timer->fifo, timer->data);
