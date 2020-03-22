@@ -6,10 +6,11 @@
 ** Use VBoxManage or the VirtualBox Manager GUI to make changes.
 -->
 <VirtualBox xmlns="http://www.virtualbox.org/" version="1.15-linux">
-  <Machine uuid="{8df0fa39-56a5-41c8-a33f-1d7dbba62d3b}" name="myHariboteOS" OSType="Other" snapshotFolder="Snapshots" lastStateChange="2020-03-18T12:33:33Z">
+  <Machine uuid="{8df0fa39-56a5-41c8-a33f-1d7dbba62d3b}" name="myHariboteOS" OSType="Other" snapshotFolder="/home/mori/git_workspace/original-os" lastStateChange="2020-03-22T02:48:03Z">
     <MediaRegistry>
       <FloppyImages>
         <Image uuid="{98032e4c-8b0d-4dec-b038-0bffc2a1740e}" location="/home/mori/git_workspace/original-os/16/os.img"/>
+        <Image uuid="{c4644f09-31d3-4c9a-b9da-923c2136e5b1}" location="/home/mori/git_workspace/original-os/17/os.img"/>
       </FloppyImages>
     </MediaRegistry>
     <ExtraData>
@@ -25,7 +26,7 @@
       <Memory RAMSize="2048"/>
       <Paravirt provider="None"/>
       <Display VRAMSize="128"/>
-      <VideoCapture file="." fps="25"/>
+      <VideoCapture screens="1" file="." fps="25"/>
       <RemoteDisplay enabled="false"/>
       <BIOS>
         <SmbiosUuidLittleEndian enabled="true"/>
@@ -43,7 +44,7 @@
       <AudioAdapter driver="Pulse" enabled="true" enabledIn="false"/>
       <Clipboard/>
       <GuestProperties>
-        <GuestProperty name="/VirtualBox/HostInfo/GUI/LanguageID" value="ja_JP" timestamp="1584532722387017000" flags=""/>
+        <GuestProperty name="/VirtualBox/HostInfo/GUI/LanguageID" value="ja_JP" timestamp="1584804776370931000" flags=""/>
       </GuestProperties>
     </Hardware>
     <StorageControllers>
@@ -52,7 +53,7 @@
       </StorageController>
       <StorageController name="Floppy" type="I82078" PortCount="1" useHostIOCache="true" Bootable="true">
         <AttachedDevice type="Floppy" hotpluggable="false" port="0" device="0">
-          <Image uuid="{98032e4c-8b0d-4dec-b038-0bffc2a1740e}"/>
+          <Image uuid="{c4644f09-31d3-4c9a-b9da-923c2136e5b1}"/>
         </AttachedDevice>
       </StorageController>
     </StorageControllers>
