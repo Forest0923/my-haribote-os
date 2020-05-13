@@ -1,0 +1,20 @@
+API_LIB_PATH	= ../apilib/
+LINKER_PATH		= ../linker/
+HEADER_PATH		= ../lib
+GCC_OPTIONS 	= -march=i486 -m32 -fno-pic -nostdlib -fno-builtin -I $(HEADER_PATH)
+
+.SUFFIXES: .hrb .o
+
+# Default
+default :
+	make $(APP).hrb
+
+# Apps
+$(APP).hrb: $(APP).asm $(API_LIB_PATH)apilib.lib $(LINKER_PATH)api.ld
+	nasm -g -f elf $*.asm -o $*.o
+	gcc $(GCC_OPTIONS) -T $(LINKER_PATH)api.ld $*.o $(API_LIB_PATH)apilib.lib -o $@
+
+
+clean :
+	rm -f *.o
+
