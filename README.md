@@ -1,5 +1,13 @@
 # my-haribote-os
 
+## Systems
+- OS: Ubuntu 18.04
+- Assembler: nasm (version 2.13.02)
+- C compiler: gcc (version 7.5.0)
+- Emulator: QEMU (version 2.11.1), VirtualBox (version 6.1.6)
+
+## Progress
+
 | Chapter   | Day        |
 |:---------:|:----------:|
 | 01        | 2020/02/20 |
@@ -31,4 +39,5 @@
 | 27        | 2020/05/11 |
 | 28        | 2020/05/12 |
 | 29        | 2020/05/13 |
+| 30        | 2020/05/14 |
 
